@@ -81,7 +81,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-slate-600 sticky top-0 z-50 shadow-lg">
+    <header className="bg-slate-600 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto flex justify-between items-center py-4 px-4">
         <div className="flex items-center">
           <img
@@ -119,22 +119,35 @@ export default function Header() {
         <nav className="hidden md:flex space-x-6 items-center">
           <NavLink
             to="/about"
-            className="text-white text-bold hover:text-yellow-400 transition font-bold"
-            activeClassName="text-yellow-400 font-semibold"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-400 font-semibold text-bold hover:text-yellow-400 transition"
+                : "text-white text-bold hover:text-yellow-400 transition font-bold"
+            }
+            // className="text-white text-bold hover:text-yellow-400 transition font-bold"
+            // activeClassName="text-yellow-400 font-semibold"
           >
             About
           </NavLink>
           <NavLink
-            to="/about"
-            className="text-white text-bold hover:text-yellow-400 transition font-bold"
-            activeClassName="text-yellow-400 font-semibold"
+            to="/register"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-400 font-semibold text-bold hover:text-yellow-400 transition"
+                : "text-white text-bold hover:text-yellow-400 transition font-bold"
+            }
+            // className=
+            // activeClassName=
           >
             Register
           </NavLink>
           <NavLink
-            to="/about"
-            className="text-white hover:text-yellow-400  transition font-bold"
-            activeClassName="text-yellow-400 font-semibold"
+            to="/login"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-400 font-semibold text-bold hover:text-yellow-400 transition"
+                : "text-white text-bold hover:text-yellow-400 transition font-bold"
+            }
           >
             LogIn
           </NavLink>
@@ -146,25 +159,40 @@ export default function Header() {
         <div className="bg-slate-600 md:hidden flex flex-col p-4 space-y-4">
           <NavLink
             to="/about"
-            className=" text-white  hover:text-yellow-400 font-bold"
-            activeClassName="text-yellow-400 font-semibold"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-400 font-semibold text-bold"
+                : "text-white hover:text-yellow-400 font-bold"
+            }
+            // className=" text-white  hover:text-yellow-400 font-bold"
+            // activeClassName="text-yellow-400 font-semibold"
             onClick={() => setMenuOpen(false)} //Close menu on link click
           >
             About
           </NavLink>
 
           <NavLink
-            to="/about"
-            className="text-white hover:text-yellow-400 font-bold"
-            activeClassName="text-yellow-400 font-semibold"
+            to="/register"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-400 font-semibold text-bold"
+                : "text-white hover:text-yellow-400 font-bold"
+            }
+            // className="text-white hover:text-yellow-400 font-bold"
+            // activeClassName="text-yellow-400 font-semibold"
             onClick={() => setMenuOpen(false)} //Close menu on link click
           >
             Register
           </NavLink>
           <NavLink
-            to="/about"
-            className="text-white hover:text-yellow-400 font-bold"
-            activeClassName="text-yellow-400 font-semibold"
+            to="/login"
+            className={({ isActive }) =>
+              isActive
+                ? "text-yellow-400 font-semibold text-bold"
+                : "text-white hover:text-yellow-400 font-bold"
+            }
+            // className="text-white hover:text-yellow-400 font-bold"
+            // activeClassName="text-yellow-400 font-semibold"
             onClick={() => setMenuOpen(false)} //Close menu on link click
           >
             LogIn

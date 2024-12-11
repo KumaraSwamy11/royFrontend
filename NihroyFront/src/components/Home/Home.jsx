@@ -1,8 +1,16 @@
+import { useState } from "react";
 import buildingImage from "../../images/building.jpg";
+import RegisterBuilder from "../Builder/RegisterBuilder";
 
 export default function Home() {
+  const [showForm, setShowForm] = useState(false);
+
+  const handleToggleForm = () => {
+    setShowForm(!showForm);
+  };
+
   return (
-    <div className="bg-gray-50 shadow-lg py-12">
+    <div className="bg-gray-50 shadow-sm py-12">
       <div className="container mx-auto px-4">
         {/* First Div- Quote and Image */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -36,11 +44,15 @@ export default function Home() {
           </p>
 
           <div className="flex justify-center md:justify-start">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-r-md">
+            <button
+              onClick={handleToggleForm}
+              className="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-r-md"
+            >
               Register as Builder
             </button>
           </div>
         </div>
+        {showForm && <RegisterBuilder onClose={handleToggleForm} />}
       </div>
     </div>
   );

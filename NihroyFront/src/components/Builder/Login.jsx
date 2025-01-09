@@ -1,34 +1,23 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-export default function RegisterBuilder({ onClose }) {
+export default function Login() {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
-    whatsappNumber: "",
-    address: "",
-    city: "",
-    experience: "",
     password: "",
-    photo: null,
   });
-
   const [showPassword, SetShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const tooglePasswordVisibility = () => {
     SetShowPassword(!showPassword);
   };
 
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, photo: e.target.files[0] });
   };
 
   const handleSubmit = async (e) => {
@@ -41,7 +30,7 @@ export default function RegisterBuilder({ onClose }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8084/api/builders/register",
+        "http://localhost:8084/api/builders/login",
         formDataToSend,
         {
           headers: {
@@ -49,37 +38,27 @@ export default function RegisterBuilder({ onClose }) {
           },
         }
       );
+      if (response.status === 200 && response.data.token) {
+        localStorage.setItem("authToken", response.data.token);
 
-      if (response.status === 200) {
-        //  alert("Registration Successfull");
-        navigate("/success");
-        console.log("Navigating to success page...");
+        //console.log("Token saved:", response.data.token);
+        navigate("/builderprofile");
+        console.log("Navigating to Builder Profile Page");
       } else {
-        alert("Failed to register");
+        alert("Failed to Login Credentials miss match");
       }
     } catch (error) {
-      console.log("Error:", error);
-      alert("An error occurred while submitting the form");
+      console.log("Error :", error);
+      alert("Error while Login to the profile ");
     }
   };
-
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-3xl font-bold mb-6 text-gray-900 text-center">
-          Register As Builder
+          LogIn
         </h2>
-
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
           <input
             type="email"
             name="email"
@@ -89,42 +68,7 @@ export default function RegisterBuilder({ onClose }) {
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             required
           />
-          <input
-            type="text"
-            name="whatsappNumber"
-            placeholder="WhastsApp Number"
-            value={formData.whatsappNumber}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-          <input
-            type="text"
-            name="address"
-            placeholder="Address"
-            value={formData.address}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus-ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-          <input
-            type="text"
-            name="city"
-            placeholder="City"
-            value={formData.city}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
-          <input
-            type="number"
-            name="experience"
-            placeholder="Experience (years)"
-            value={formData.experience}
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
-          />
+
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -142,27 +86,20 @@ export default function RegisterBuilder({ onClose }) {
               {showPassword ? " 🔒" : "👁️"} {/* Use better icons if needed */}
             </span>
           </div>
-          <input
-            type="file"
-            name="photo"
-            onChange={handleFileChange}
-            className="w-full p-3 border rounded-lg focus:outline-none"
-          />
           <div className="flex justify-between items-center">
             <button
               type="submit"
               className="bg-yellow-400 text-black px-6 py-2 rounded-lg hover:bg-yellow-500"
             >
-              Register
+              Log In
             </button>
 
-            <button
-              type="button"
-              onClick={onClose}
+            <Link
+              to="/"
               className="bg-red-400 text-black   px-6 py-2 rounded-lg hover:bg-red-500"
             >
               Cancel
-            </button>
+            </Link>
           </div>
         </form>
       </div>
